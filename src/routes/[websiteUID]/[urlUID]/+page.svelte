@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 
 	export let data;
+
 	const principes = data.principesData.principes;
 
 	$: heading = {
@@ -43,7 +44,6 @@
 	<ul>
 		{#each principes as principe (principe.index)}
 			<li>
-				{console.log("HI")}
 				<a href="{$page.url.pathname}/{principe.slug}">
 					<div class="principe">
 						<h1><span>{principe.titel}. </span> Principe {principe.index}</h1>

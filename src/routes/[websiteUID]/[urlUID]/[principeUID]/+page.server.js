@@ -11,7 +11,6 @@ import deleteCheck from '$lib/queries/deleteCheck';
 import { error } from '@sveltejs/kit';
 
 export const load = async ({ params }) => {
-	console.log('loading...')
 	const { websiteUID } = params;
 	const { urlUID } = params;
 	const { principeUID } = params;
@@ -21,7 +20,7 @@ export const load = async ({ params }) => {
 	const queryToolboard = getQueryToolboard(gql, slugUrl, principeSlug);
 	const urlData = await hygraph.request(queryUrl);
 	const toolboardData = await hygraph.request(queryToolboard);
-	console.log(urlData.url)
+
 	if (urlData.url.website.slug === websiteUID) {
 		// Your existing condition
 		if (toolboardData.principe === null) {
