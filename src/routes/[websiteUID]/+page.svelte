@@ -27,6 +27,8 @@
 		dialog.showModal();
 		el.preventDefault();
 	}
+	console.log(data)
+
 </script>
 
 <Heading {heading} />

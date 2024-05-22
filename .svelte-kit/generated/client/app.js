@@ -19,14 +19,14 @@ export const server_loads = [0];
 
 export const dictionary = {
 		"/": [~3],
-		"/account": [8],
-		"/addPartner": [~9],
-		"/info": [~10],
-		"/login": [11],
-		"/[websiteUID]": [~4,[2]],
-		"/[websiteUID]/addUrl": [~7,[2]],
-		"/[websiteUID]/[urlUID]": [~5,[2]],
-		"/[websiteUID]/[urlUID]/[principeUID]": [~6,[2]]
+		"/account": [4],
+		"/addPartner": [~5],
+		"/info": [~6],
+		"/login": [7],
+		"/[websiteUID]": [~8,[2]],
+		"/[websiteUID]/addUrl": [~9,[2]],
+		"/[websiteUID]/[urlUID]": [~10,[2]],
+		"/[websiteUID]/[urlUID]/[principeUID]": [~11,[2]]
 	};
 
 export const hooks = {

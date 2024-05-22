@@ -86,6 +86,7 @@
 			alert(form?.message);
 		}
 	}
+	console.log(params)
 </script>
 
 <li class="website" class:container-off={containerOff}>
