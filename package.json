@@ -12,6 +12,7 @@
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.20.4",
+		"axe-core": "^4.9.1",
 		"prettier": "^2.8.0",
 		"prettier-plugin-svelte": "^2.10.1",
 		"svelte": "^4.0.5",
@@ -20,8 +21,10 @@
 	"type": "module",
 	"dependencies": {
 		"accessibility-checker": "^3.1.71",
+		"chrome-launcher": "^1.1.1",
 		"dotenv": "^16.4.5",
 		"graphql": "^16.8.1",
-		"graphql-request": "^6.1.0"
+		"graphql-request": "^6.1.0",
+		"lighthouse": "^12.0.0"
 	}
 }

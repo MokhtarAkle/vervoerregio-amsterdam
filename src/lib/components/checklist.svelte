@@ -11,8 +11,8 @@
 	import { enhance } from '$app/forms';
 
 	import loadingIcon from '$lib/assets/loading.svg';
-	// import getFailures from '$lib/scripts/accessChecker.js'
-	// getFailures();
+	import getFailures from '$lib/scripts/accessChecker.cjs'
+	getFailures('https://programma.fdnd.nl');
 
 
 	let loading = false;

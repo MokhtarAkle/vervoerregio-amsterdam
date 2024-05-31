@@ -21,6 +21,7 @@
 	let closeButton;
 	let dialogRef;
 
+	
 	onMount(() => {
 		closeButton = document.querySelector('dialog button');
 		dialogRef = document.querySelector('dialog');

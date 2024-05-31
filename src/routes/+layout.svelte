@@ -11,7 +11,7 @@
 	$: websites = data.websitesData.website;
 
 	import { onNavigate } from '$app/navigation';
-
+	
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
 
