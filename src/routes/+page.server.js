@@ -6,25 +6,6 @@ import getQueryUpdatePartner from '$lib/queries/updatePartner';
 import getQueryPartner from '$lib/queries/partner'
 import getQueryAddPartner from '$lib/queries/addPartner'
 
-import fs from 'fs';
-import lighthouse from 'lighthouse';
-import * as chromeLauncher from 'chrome-launcher';
-import config from './lighthouse-config.js';
-
-const chrome = await chromeLauncher.launch({chromeFlags: ['--headless']});
-// const options = {logLevel: 'info', output: 'json', onlyCategories: ['accessibility'], port: chrome.port};
-const runnerResult = await lighthouse('https://vervoerregio-amsterdam.vercel.app/', {port: chrome.port}, config);
-
-// `.report` is the HTML report as a string
-const reportHtml = runnerResult.report;
-fs.writeFileSync('lhreport.json', reportHtml);
-
-// `.lhr` is the Lighthouse Result as a JS object
-console.log("Report:", reportHtml)
-console.log('Report is done for', runnerResult.lhr.finalDisplayedUrl);
-console.log('Performance score was', runnerResult.lhr.categories.accessibility.score * 100);
-
-chrome.kill();
 
 export async function load() {
 	let query = getQueryPartner(gql);

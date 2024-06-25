@@ -10,6 +10,7 @@ export default function getQueryToolboard(gql, slugUrl, principeSlug) {
               id
               index
               niveau
+              lighthouseId
             }
           }
         }
@@ -25,6 +26,7 @@ export default function getQueryToolboard(gql, slugUrl, principeSlug) {
               titel
               index
               niveau
+              lighthouseId
               criteria {
                 html
               }
@@ -53,6 +55,7 @@ export default function getQueryToolboard(gql, slugUrl, principeSlug) {
               titel
               index
               niveau
+              lighthouseId
               criteria {
                 text
               }

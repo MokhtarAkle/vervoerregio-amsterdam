@@ -15,6 +15,7 @@
 	const urlData = data.urlData;
 	const richtlijnen = toolboardData.principe.richtlijnen;
 	const principes = data.toolboardData.principes;
+	const audits = data.audits;
 </script>
 
 
@@ -23,7 +24,7 @@
 	{#if form?.success}
 		<div class="toast"><p>Checklist is opgeslagen!</p></div>
 	{/if}
-	<Checklist {richtlijnen} {toolboardData} />
+	<Checklist {richtlijnen} {toolboardData} {audits}/>
 	<Sidebar {principes} {urlData} />
 </section>
 

@@ -12,7 +12,7 @@ export default {
           // See the audits listed at dequeuniversity.com/rules/axe/4.7.
           // Click on an audit and check the right hand column to see its severity.
           auditRefs: [
-            {id: 'accesskeys', weight: 7, group: 'a11y-navigation', wcag: '1.1.1'},
+            {id: 'accesskeys', weight: 7, group: 'a11y-navigation'},
             {id: 'aria-allowed-attr', weight: 10, group: 'a11y-aria'},
             {id: 'aria-allowed-role', weight: 1, group: 'a11y-aria'},
             {id: 'aria-command-name', weight: 7, group: 'a11y-aria'},

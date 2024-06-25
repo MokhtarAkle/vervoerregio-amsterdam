@@ -4,6 +4,7 @@
 	import Search from '$lib/components/search.svelte';
 	import PartnerForm from '../lib/components/partnerForm.svelte';
 	import { onMount } from 'svelte';
+
 	export let data;
 
 	let heading = { titel: 'Partners overzicht' };

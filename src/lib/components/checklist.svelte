@@ -5,20 +5,25 @@
 <script>
 	export let richtlijnen;
 	export let toolboardData;
+	export let audits;
 	export let selectedNiveau = 'A';
 
 	import { onMount } from 'svelte';
 	import { enhance } from '$app/forms';
 
 	import loadingIcon from '$lib/assets/loading.svg';
-	import getFailures from '$lib/scripts/accessChecker.cjs'
-	getFailures('https://programma.fdnd.nl');
 
+	let checked = false;
+	let holder = "";
 
+	$:{
+		checked;
+	}
+	let uniqueIndices;
 	let loading = false;
-	
+	let audito = {};
+	let auditId;
 	// console.log(toolboardData)
-
 	const getSuccescriteriaByNiveau = (niveau) =>
 		toolboardData.url.checks[0]
 			? toolboardData.url.checks[0].succescriteria.filter((item) => item.niveau === niveau)
@@ -34,10 +39,22 @@
 	const checkedSuccescriteria = toolboardData.url.checks[0]
 		? toolboardData.url.checks[0].succescriteria
 		: [];
-	onMount(() => {
+
+		for (auditId in audits) {
+	   audito = audits[auditId];
+	//   console.log(audito.id + " " + audito.score)
+
+	  // Add more code here to do something with each audit result
+	}
+    let auditsArray = Object.values(audits);
+	console.log(audits)
+
+	onMount(async () => {
+		// console.log(audits)
+
 
 		const niveauToggle = document.querySelector('#niveau-toggle');
-		console.log(niveauToggle);
+		// console.log(niveauToggle);
 		niveauToggle.classList.toggle('disabled');
 	});
 
@@ -56,6 +73,7 @@
 		event.preventDefault();
 	}
 
+	
 </script>
 
 <section>
@@ -99,7 +117,10 @@
 				</summary>
 				<!-- </div>	 -->
 				<article>
+					
 					{#each richtlijn.succescriteria as succescriterium}
+					<!-- {console.log(succescriterium)} -->
+
 						{#if succescriterium.niveau === selectedNiveau}
 							<details>
 								<summary class="criteria-uitklapbaar">
@@ -108,12 +129,36 @@
 											<span>Criteria {succescriterium.index} ({succescriterium.niveau})</span>
 											<h3>{succescriterium.titel}</h3>
 										</div>
+
+										{#each auditsArray as audit, index}
+										{#if succescriterium.lighthouseId && succescriterium.lighthouseId.includes(audit.id) && audit.score == 1}
+
+										<input
+										name="check"
+										value={succescriterium.id}
+										type="checkbox"
+										checked={true}
+									/>
+										{/if}
+
+										{/each}
+										{#if succescriterium.lighthouseId}
 										<input
 											name="check"
 											value={succescriterium.id}
 											type="checkbox"
-											checked={checkedSuccescriteria.find((e) => e.id === succescriterium.id)}
+											checked={checked}
 										/>
+										{:else}
+										<input
+										name="check"
+										value={succescriterium.id}
+										type="checkbox"
+										
+										/>
+									{/if}
+
+
 									</label>
 								</summary>
 								<!-- tekuitleg voor succescriterium -->
@@ -245,6 +290,9 @@
 		font-weight: 600;
 	}
 
+	label h3{
+		width: 12em;
+	}
 	span {
 		font-weight: 100;
 		font-family: 1em;
@@ -314,6 +362,8 @@
 		align-items: center;
 	}
 
+	
+
 	/* .criteria-uitklapbaar::-webkit-details-marker {
 		display: none;
 	} */
@@ -367,6 +417,10 @@
 	input[type='checkbox']:checked {
 		background-color: var(--c-pink);
 	}
+
+	label input:not(:first-of-type) {
+    display: none;
+}
 
 	#niveau-toggle {
 		margin-bottom: 1em;
