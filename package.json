@@ -10,17 +10,17 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^2.0.0",
-		"@sveltejs/kit": "^1.20.4",
+		"@sveltejs/adapter-auto": "^7.0.1",
+		"@sveltejs/kit": "^2.65.2",
 		"axe-core": "^4.9.1",
 		"prettier": "^2.8.0",
-		"prettier-plugin-svelte": "^2.10.1",
-		"svelte": "^4.0.5",
-		"vite": "^4.4.2"
+		"prettier-plugin-svelte": "^4.1.1",
+		"svelte": "^5.56.3",
+		"vite": "^8.0.16"
 	},
 	"type": "module",
 	"dependencies": {
-		"accessibility-checker": "^3.1.71",
+		"accessibility-checker": "^4.0.26",
 		"chrome-launcher": "^1.1.1",
 		"dotenv": "^16.4.5",
 		"graphql": "^16.8.1",
