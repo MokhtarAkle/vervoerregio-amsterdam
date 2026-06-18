@@ -12,7 +12,7 @@ import { error } from '@sveltejs/kit';
 import fs from 'fs';
 import lighthouse from 'lighthouse';
 import * as chromeLauncher from 'chrome-launcher';
-import config from './lighthouse-config.js';
+import config from '$lib/lighthouse-config.js';
 
 // export async function generateAuditResults(){
 //   const chrome = await chromeLauncher.launch({chromeFlags: ['--headless']});
