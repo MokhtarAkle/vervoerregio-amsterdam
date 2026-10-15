@@ -9,43 +9,17 @@ import addCheck from '$lib/queries/addCheck';
 import deleteCheck from '$lib/queries/deleteCheck';
 
 import { error } from '@sveltejs/kit';
-import fs from 'fs';
-import lighthouse from 'lighthouse';
-import * as chromeLauncher from 'chrome-launcher';
-import config from '$lib/lighthouse-config.js';
+import { getAccessibilityAudits } from '$lib/pagespeed.js';
 
-// export async function generateAuditResults(){
-//   const chrome = await chromeLauncher.launch({chromeFlags: ['--headless']});
-// // const options = {logLevel: 'info', output: 'json', onlyCategories: ['accessibility'], port: chrome.port};
-// const runnerResult = await lighthouse('https://vervoerregio-amsterdam.vercel.app/', {port: chrome.port}, config);
-
-// // `.report` is the HTML report as a string
-// const reportHtml = runnerResult.report;
-// fs.writeFileSync('lhreport.json', reportHtml);
-
-// // `.lhr` is the Lighthouse Result as a JS object
-// // console.log("Report:", reportHtml)
-// // console.log('Report is done for', runnerResult.lhr.finalDisplayedUrl);
-// // console.log('Performance score was', runnerResult.lhr.categories.accessibility.score * 100);
-// console.log(runnerResult.lhr.audits['aria-allowed-attr']);
-// const audits = {};
-// for (let auditId in runnerResult.lhr.audits) {
-//   const auditResult = runnerResult.lhr.audits[auditId];
-
-//   // Do something with auditResult
-//   if(auditResult.scoreDisplayMode == 'binary'){
-//     console.log(`Audit ID: ${auditId}`);
-//     console.log(`Audit ScoreMode: ${auditResult.scoreDisplayMode}`);
-//     console.log(`Audit Score: ${auditResult.score}`);
-//     audits[auditId] = auditResult;
-//   }
-//   // Add more code here to do something with each audit result
-// }
-
-// chrome.kill();
-
-// return audits
-// }
+// Retry without lighthouseId when the Hygraph schema doesn't have that field yet
+async function requestToolboard(slugUrl, principeSlug) {
+	try {
+		return await hygraph.request(getQueryToolboard(gql, slugUrl, principeSlug));
+	} catch (err) {
+		if (!String(err.message).includes('lighthouseId')) throw err;
+		return hygraph.request(getQueryToolboard(gql, slugUrl, principeSlug, false));
+	}
+}
 
 export const load = async ({ params }) => {
 	const { websiteUID } = params;
@@ -54,44 +28,17 @@ export const load = async ({ params }) => {
 	const slugUrl = urlUID;
 	const principeSlug = principeUID;
 	const queryUrl = getQueryUrl(gql, urlUID);
-	const queryToolboard = getQueryToolboard(gql, slugUrl, principeSlug);
 	const urlData = await hygraph.request(queryUrl);
-	const toolboardData = await hygraph.request(queryToolboard);
-	const chrome = await chromeLauncher.launch({chromeFlags: ['--headless']});
-	console.log(urlData.url.url)
-	// const options = {logLevel: 'info', output: 'json', onlyCategories: ['accessibility'], port: chrome.port};
-	const runnerResult = await lighthouse(urlData.url.url, {port: chrome.port}, config);
-	
-	// `.report` is the HTML report as a string
-	const reportHtml = runnerResult.report;
-	
-	// `.lhr` is the Lighthouse Result as a JS object
-	// console.log("Report:", reportHtml)
-	console.log('Report is done for', runnerResult.lhr.finalDisplayedUrl);
-	console.log('Performance score was', runnerResult.lhr.categories.accessibility.score * 100);
-	// console.log(runnerResult.lhr.audits['aria-allowed-attr']);
-	const audits = {};
-	for (let auditId in runnerResult.lhr.audits) {
-	  const auditResult = runnerResult.lhr.audits[auditId];
-	
-	  // Do something with auditResult
-	  if(auditResult.scoreDisplayMode == 'binary'){
-		// console.log(`Audit ID: ${auditId}`);
-		// console.log(`Audit ScoreMode: ${auditResult.scoreDisplayMode}`);
-		// console.log(`Audit Score: ${auditResult.score}`);
-		audits[auditId] = auditResult;
-	  }
-	}
-	// console.log(audits)
-	chrome.kill();
-	
-	if (urlData.url.website.slug === websiteUID) {
+	const toolboardData = await requestToolboard(slugUrl, principeSlug);
+
+	if (urlData.url?.website.slug === websiteUID) {
 		// Your existing condition
 		if (toolboardData.principe === null) {
 			throw error(404, {
 				message: 'Principe bestaat niet'
 			});
 		}
+		const audits = await getAccessibilityAudits(urlData.url.url);
 		return {
 			toolboardData,
 			urlData,
@@ -114,8 +61,7 @@ export const actions = {
 		const { websiteUID, urlUID, principeUID } = params;
 		const slugUrl = urlUID;
 		const principeSlug = principeUID;
-		const queryToolboard = getQueryToolboard(gql, slugUrl, principeSlug);
-		const toolboardData = await hygraph.request(queryToolboard);
+		const toolboardData = await requestToolboard(slugUrl, principeSlug);
 
 		// get only the succescriteria from the db which have the current principeIndex and niveau of the submitted form
 		const savedCheckedSuccescriteria = toolboardData.url.checks[0]

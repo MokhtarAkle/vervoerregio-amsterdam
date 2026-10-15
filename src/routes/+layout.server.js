@@ -9,7 +9,8 @@ export async function load({ params }) {
 	const queryWebsite = getQueryWebsite(gql, websiteUID);
 
 	return {
-		partnersData: hygraph.request(queryPartner),
-		websitesData: hygraph.request(queryWebsite)
+		// SvelteKit 2 no longer awaits top-level promises returned from load, so await them here
+		partnersData: await hygraph.request(queryPartner),
+		websitesData: await hygraph.request(queryWebsite)
 	};
 }

@@ -4,7 +4,8 @@
 	import { onMount } from 'svelte';
 	let successCriteriaMap = {};
 	let criteriaPerPrincipe = {};
-	let baseUrl = `/${urlData.url.website.slug}/${urlData.url.slug}`;
+	// Joined instead of a `/${a}/${b}` template literal, which Vercel's file tracer mistakes for a filesystem path
+	let baseUrl = ['', urlData.url.website.slug, urlData.url.slug].join('/');
 
 	const criteriaSlice = urlData.url.checks.flatMap((check) =>
 		check.succescriteria.map((criteria) => criteria.index)

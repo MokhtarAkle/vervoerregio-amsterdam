@@ -10,19 +10,20 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^7.0.1",
+		"@sveltejs/adapter-vercel": "^6.3.4",
 		"@sveltejs/kit": "^2.65.2",
+		"accessibility-checker": "^4.0.34",
 		"axe-core": "^4.9.1",
 		"svelte": "^5.56.3",
 		"vite": "^8.0.16"
 	},
 	"type": "module",
 	"dependencies": {
-		"accessibility-checker": "^4.0.26",
-		"chrome-launcher": "^1.1.1",
 		"dotenv": "^16.4.5",
 		"graphql": "^16.8.1",
-		"graphql-request": "^6.1.0",
-		"lighthouse": "^12.0.0"
+		"graphql-request": "^6.1.0"
+	},
+	"engines": {
+		"node": "22.x"
 	}
 }

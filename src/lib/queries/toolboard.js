@@ -1,4 +1,6 @@
-export default function getQueryToolboard(gql, slugUrl, principeSlug) {
+// lighthouseId only exists in Hygraph schemas that have the Lighthouse field added; pass false to leave it out
+export default function getQueryToolboard(gql, slugUrl, principeSlug, withLighthouseId = true) {
+	const lighthouseId = withLighthouseId ? 'lighthouseId' : '';
 	return gql`
     query Toolboard {
         url(where: {slug: "${slugUrl}"}) {
@@ -10,7 +12,7 @@ export default function getQueryToolboard(gql, slugUrl, principeSlug) {
               id
               index
               niveau
-              lighthouseId
+              ${lighthouseId}
             }
           }
         }
@@ -26,7 +28,7 @@ export default function getQueryToolboard(gql, slugUrl, principeSlug) {
               titel
               index
               niveau
-              lighthouseId
+              ${lighthouseId}
               criteria {
                 html
               }
@@ -55,7 +57,7 @@ export default function getQueryToolboard(gql, slugUrl, principeSlug) {
               titel
               index
               niveau
-              lighthouseId
+              ${lighthouseId}
               criteria {
                 text
               }
